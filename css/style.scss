@@ -1,0 +1,352 @@
+@charset "utf-8";
+$bcolor: #fff;
+
+$bgcolor: rgba(82, 33, 75, 1);
+/*$bgcolor: rgba(0,0,0,1);*/
+/*六边形高度*/
+/*$staticLength: 17.3050806;*/
+$staticLength: 8.66025404;
+/*六边形宽度*/
+/*$width: 10;*/
+$width: 5;
+$border-width: .5;
+$hexagon2TotalWidth: $width * 3 / 2 + $staticLength/($width + $border-width * 2) * $border-width;
+/*$hexagon2TotalWidth: 15 + 2;*/
+
+$color-orange: rgba(255, 153, 19, 1);
+
+@mixin gradient($originColor : rgba(155,107,159, 1), $targetColor : $bgcolor){
+    background-image: -webkit-radial-gradient($originColor, $targetColor 70.710678%);
+    background-image: radial-gradient($originColor, $targetColor 70.710678%);
+    /*background-image: -webkit-linear-gradient($originColor, $targetColor);*/
+    /*background-image: linear-gradient($originColor, $targetColor);*/
+}
+
+@mixin rotate($deg){
+    -webkit-transform: rotate($deg);
+    -ms-transform: rotate($deg);
+    -o-transform: rotate($deg);
+    transform: rotate($deg);
+}
+%hexagon2-pseudo{
+    content: '';
+    position: absolute;
+    display: block;
+    width: $width + rem;
+    height: $staticLength + rem;
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Microsoft Yahei;
+}
+html{
+    font-size: 5px;
+}
+.hide{
+    display: none !important;
+}
+
+@-webkit-keyframes ani-leftin{
+    from{
+        -webkit-transform: translateX(100%) rotate3d(1, 0, 0, 0deg);
+        opacity: 0;
+    }
+    to{
+        -webkit-transform: translateX(0) rotate3d(1, 0, 0, 360deg);
+        opacity: 1;
+    }
+}
+@keyframes ani-leftin{
+    from{
+        transform: translateX(100%) rotate3d(1, 0, 0, 0deg);
+        opacity: 0;
+    }
+    to{
+        transform: translateX(0) rotate3d(1, 0, 0, 360deg);
+        opacity: 1;
+    }
+}
+
+/*@-webkit-keyframes ani-leftin{
+    from{
+        -webkit-transform: translateX(100%) rotate3d(1, 0, 0, 0);
+        opacity: 0;
+    }
+    to{
+        -webkit-transform: translateX(0) rotate3d(1, 0, 0, 360deg);
+        opacity: 1;
+    }
+}
+@keyframes ani-leftin{
+    from{
+        transform: translateX(100%) rotate3d(1, 0, 0, 0);
+        opacity: 0;
+    }
+    to{
+        transform: translateX(0) rotate3d(1, 0, 0, 360deg);
+        opacity: 1;
+    }
+}*/
+
+@-webkit-keyframes ani-scaleout2{
+    from{
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+    50%, to{
+        -webkit-transform: scale(1.5);
+        opacity: 0;
+    }
+}
+@keyframes ani-scaleout2{
+    from{
+        transform: scale(1);
+        opacity: 1;
+    }
+    50%, to{
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+@-webkit-keyframes ani-scaleout{
+    from{
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+    to{
+        -webkit-transform: scale(1.5);
+        opacity: 0;
+    }
+}
+@keyframes ani-scaleout{
+    from{
+        transform: scale(1);
+        opacity: 1;
+    }
+    to{
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+@-webkit-keyframes ani-rotate{
+    from{
+        -webkit-transform: rotate(0);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes ani-rotate{
+    from{
+        transform: rotate(0);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+/*根号3 1.73050807568877*/
+.hexagon{
+    width: $width * 2 + rem;
+    height: $staticLength + rem;
+    border: .1rem solid $bcolor;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    @include gradient;
+    &:before{
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-color: $bcolor;
+        border-width: (($staticLength/4) + rem) (($width/4) + rem) (($staticLength/4) + rem) (($width/4) + rem);
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        left: 0;
+        top: 0;
+        z-index: 1;
+    }
+    &:after{
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-color: $bcolor;
+        border-width: (($staticLength/4) + rem) (($width/4) + rem) (($staticLength/4) + rem) (($width/4) + rem);
+        border-left-color: transparent;
+        border-top-color: transparent;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+    i{
+        z-index: 1;
+        position: absolute;
+        display: block;
+        border-style: solid;
+        border-color: $bcolor;
+        border-width: (($staticLength/4) + rem) (($width/4) + rem) (($staticLength/4) + rem) (($width/4) + rem);
+        &:first-of-type{
+            left: 0;
+            bottom: 0;
+            border-right-color: transparent;
+            border-top-color: transparent;
+        }
+        &:last-of-type{
+            right: 0;
+            top: 0;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+        }
+    }
+}
+
+
+
+/*一个六边形的占用的宽度为10.2rem*/
+.hexagon2{
+    left: $width / 2 + rem;
+    position: relative;
+    transform-style: preserve-3d;
+    width: $width + rem;
+    -webkit-transition: -webkit-transform .3s;
+    transition: transform .3s;
+    vertical-align: top;
+    height: $staticLength + rem;
+    background-color: $bgcolor;
+    margin: ($border-width + rem) 0;
+    margin-right: ($width / 2 + $staticLength/$width * $border-width) + rem;
+    display: inline-block;
+    &:before{
+        @extend %hexagon2-pseudo;
+        @include rotate(60deg);
+        background-color: $bgcolor;
+    }
+    &:after{
+        @extend %hexagon2-pseudo;
+        @include rotate(-60deg);
+        background-color: $bgcolor;
+    }
+    .circle{
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        z-index: 3;
+        margin-left: - ($staticLength/2) + rem;
+        border-radius: 50%;
+        height: $staticLength + rem;
+        width: $staticLength + rem;
+        @include gradient;
+        p{
+            margin: (- ($staticLength/2) + rem) 0 0 (- ($staticLength/2) + rem);
+            height: $staticLength + rem;
+            line-height: $staticLength + rem;
+            width: $staticLength + rem;
+            color: #fff;
+            font-size: 10rem;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transition: opacity .1s;
+            transition: opacity .1s;
+            opacity: 0;
+            -webkit-transform: rotate3d(0, 1, 0, -180deg);
+            -ms-transform: rotate3d(0, 1, 0, -180deg);
+            -o-transform: rotate3d(0, 1, 0, -180deg);
+            transform: rotate3d(0, 1, 0, -180deg);
+        }
+    }
+    &:nth-of-type(2n){
+        top: ($staticLength/ 2 + $border-width) + rem;
+        /*top: ($staticLength / 2) + rem;*/
+    }
+    &.current{
+        -webkit-transform: rotate3d(0, 1, 0, 180deg);
+        -ms-transform: rotate3d(0, 1, 0, 180deg);
+        -o-transform: rotate3d(0, 1, 0, 180deg);
+        transform: rotate3d(0, 1, 0, 180deg);
+        .circle{
+            p{
+                opacity: 1;
+            }
+        }
+    }
+    &.disabled{
+        -webkit-animation: ani-scaleout .3s;
+        -o-animation: ani-scaleout .3s;
+        animation: ani-scaleout .3s;
+        opacity: 0;
+    }
+}
+
+.menu{
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 20rem;
+    color: #fff;
+    font-size: 5rem;
+    border-radius: 0 0 2rem 2rem;
+    background-color: rgba(0,0,0,.3);
+    li{
+        padding: .5rem 1rem;
+        list-style: none;
+        background-color: rgba(0,0,0,.3);
+        border-bottom: .1rem solid #ccc;
+        border-radius: 5rem;
+        transform-style: preserve-3d;
+        -webkit-animation-name: ani-leftin;
+        animation-name: ani-leftin;
+        .num{
+            width: 5rem;
+            margin-left: 1rem;
+            position: relative;
+            i{
+                font-style: normal;
+                display: inline-block;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+        &:nth-of-type(1){
+            animation-duration: 1.2s;
+        }
+        &:nth-of-type(2){
+            animation-duration: 1.5s;
+        }
+        &:nth-of-type(3){
+            animation-duration: 1.8s;
+        }
+    }
+}
+
+.scaleout{
+    -webkit-animation: ani-scaleout2 1s;
+    -o-animation: ani-scaleout2 1s;
+    animation: ani-scaleout2 1s;
+    /*opacity: 0;*/
+}
+
+@for $i from 0 through 12{
+    @if $i % 2 != 0{
+        @media screen and (min-width: ($width/2 + ($i * $hexagon2TotalWidth)) + rem ) and (max-width: ($width/2 + (($i + 1) * $hexagon2TotalWidth)) + rem ) {
+            .hexagon-container{
+                width: ($width/2 + (($i + 1) * $hexagon2TotalWidth)) + rem;
+                /*background-color: red;*/
+            }
+        }
+    }
+    @else{
+        @media screen and (min-width: ($width/2 + ($i * $hexagon2TotalWidth)) + rem ) and (max-width: ($width/2 + (($i + 1) * $hexagon2TotalWidth)) + rem ) {
+            .hexagon-container{
+                width: ($width/2 + (($i + 2) * $hexagon2TotalWidth)) + rem;
+                /*background-color: blue;*/
+            }
+        }
+    }
+
+}
